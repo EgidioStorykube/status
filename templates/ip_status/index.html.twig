@@ -6,11 +6,17 @@
 
     <h1>IP Monitor</h1>
     <div>
+
         {% if ipsStatus|length > 0 %}
             {% for ip in ipsStatus %}
                 <div>
                     <a href="{{path('app_ip_status_show', {ipStatus:ip.id})}}">{{ip.ip}}</a>
                 </div>
+                {% if ip.status == null %}
+                    <p>Not pinged!</p>
+                {% else %}
+                    <p>{{ip.status}}</p>
+                {% endif %}
             {% endfor %}
         {% else %}
             Nothing To Monitoring Here!

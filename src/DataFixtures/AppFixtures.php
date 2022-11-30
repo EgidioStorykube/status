@@ -17,6 +17,12 @@ class AppFixtures extends Fixture
 
         $manager -> persist($ipStatus1);
 
+        $ipStatus2 = New IpStatus();
+        $ipStatus2 -> setIp('www.google.it');
+        $ipStatus2 -> setCreatedAt(new DateTime());
+
+        $manager -> persist($ipStatus2);
+
         $manager->flush();
     }
 }
