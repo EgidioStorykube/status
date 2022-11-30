@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IP Monitor{% endblock %}
+
+{% block body %}
+
+    <h1>IP Monitor</h1>
+    <div>
+        {% if ipStatus|length > 0 %}
+            {% for ip in ipStatus %}
+                <div>
+                    {{  ip.ip }}
+                </div>
+            {% endfor %}
+        {% else %}
+            Nothing To Monitoring Here!
+        {% endif %}
+    </div>
+
+{% endblock %}
