@@ -1,0 +1,16 @@
+{{form_start(form)}}
+    <div>
+        {{ form_errors(form)}}
+    </div>
+    <div>
+        {{form_label(form.ip, 'Please enter the Ip')}}
+    </div>
+    <div>
+        {{form_widget(form.ip)}}
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+{{form_end(form)}}

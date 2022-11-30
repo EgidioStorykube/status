@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ip - {{ipStatus.ip}}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ipStatus.ip}}</h1>
+    <p>{{ipStatus.status}}</p>
+    <div style="color:#c1c1c1">
+        {{ ipStatus.createdat|date('d/m/Y') }}    
+    </div>
+
+{% endblock %}

@@ -6,10 +6,10 @@
 
     <h1>IP Monitor</h1>
     <div>
-        {% if ipStatus|length > 0 %}
-            {% for ip in ipStatus %}
+        {% if ipsStatus|length > 0 %}
+            {% for ip in ipsStatus %}
                 <div>
-                    {{  ip.ip }}
+                    <a href="{{path('app_ip_status_show', {ipStatus:ip.id})}}">{{ip.ip}}</a>
                 </div>
             {% endfor %}
         {% else %}
