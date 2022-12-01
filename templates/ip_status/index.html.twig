@@ -4,23 +4,32 @@
 
 {% block body %}
 
-    <h1>IP Monitor</h1>
-    <div>
-
-        {% if ipsStatus|length > 0 %}
+    <h1>Url Monitor</h1>
+    {% if ipsStatus|length > 0 %}
+        <div class="d-flex flex-wrap justify-content-center flex-row">
             {% for ip in ipsStatus %}
-                <div>
-                    <a href="{{path('app_ip_status_show', {ipStatus:ip.id})}}">{{ip.ip}}</a>
+                <div class="{{ip.status == true? 'text-white border-success ' : 'text-white border-secondary '}}card m-2 p-2 bg-transparent flex-fill">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {% if ip.status == 1 %}
+                                Online
+                            {% else %}
+                                Offline
+                            {% endif %}
+                        </h5>
+                        <p class="card-text">{{ip.ip}}</p>
+                        <p class="text-secondary">Last check {{ip.lastping|date('d/m/Y')}}</p>
+                        <div class="d-flex flex-row justify-content-between">
+                            <a href="{{path('app_ip_status_show', {ipStatus:ip.id})}}" class="btn btn-secondary">Show</a>
+                            <a href="{{path('app_ip_status_edit', {ipStatus:ip.id})}}" class="btn btn-warning">Edit</a>
+                            <a href="{{path('app_ip_status_delete', {ipStatus:ip.id})}}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
                 </div>
-                {% if ip.status == null %}
-                    <p>Not pinged!</p>
-                {% else %}
-                    <p>{{ip.status}}</p>
-                {% endif %}
             {% endfor %}
-        {% else %}
-            Nothing To Monitoring Here!
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <p>Nothing To Monitoring Here!</p>
+    {% endif %}
 
 {% endblock %}

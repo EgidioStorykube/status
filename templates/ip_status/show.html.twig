@@ -4,10 +4,23 @@
 
 {% block body %}
 
-    <h1>{{ipStatus.ip}}</h1>
-    <p>{{ipStatus.status}}</p>
-    <div style="color:#c1c1c1">
-        {{ ipStatus.createdat|date('d/m/Y') }}    
-    </div>
+    <h1>Url Info</h1>
+    <div class="{{ipStatus.status == true? 'text-white border-success ' : 'text-white border-secondary '}}card m-2 p-2 bg-transparent flex-fill">
+        <div class="card-body">
+            <h5 class="card-title">
+                {% if ipStatus.status == 1 %}
+                    Online
+                {% else %}
+                    Offline
+                {% endif %}
+            </h5>
+            <p class="card-text">{{ipStatus.ip}}</p>
+            <p class="text-secondary">Last check {{ipStatus.lastping|date('d/m/Y')}}</p>
+            <div class="d-flex flex-row">
+                <a href="{{path('app_ip_status')}}" class="btn btn-secondary m-2">Home</a>
+                <a href="{{path('app_ip_status_edit', {ipStatus:ipStatus.id})}}" class="btn btn-warning m-2">Edit</a>
+                <a href="{{path('app_ip_status_delete', {ipStatus:ipStatus.id})}}" class="btn btn-danger m-2">Delete</a>
+            </div>
+        </div>
 
 {% endblock %}

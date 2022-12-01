@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\IpStatusRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IpStatusRepository::class)]
 class IpStatus
@@ -15,6 +16,10 @@ class IpStatus
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Url(
+        protocols: ['http', 'https', 'ftp'],
+    )]
     private ?string $ip = null;
 
     #[ORM\Column(nullable: true)]

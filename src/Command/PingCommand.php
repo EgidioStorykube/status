@@ -2,69 +2,67 @@
 
 namespace App\Command;
 
-use mysqli;
+use DateTime;
+use App\Entity\IpStatus;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
-    name: 'app:test',
-    description: 'Test command',
+    name: 'app:ping',
+    description: 'Ping command',
 )]
 class PingCommand extends Command
 {
-    protected static $defaultName = 'app:test';
+    protected static $defaultName = 'app:ping';
+    private $entityManager;
+    private $client;
+
     protected function configure(): void
     {
         $this
-            ->setName('app:test')
-            ->setDescription('Test command');
+            ->setName('app:ping')
+            ->setDescription('Ping command');
         ;
+    }
+
+    public function __construct(EntityManagerInterface $entityManager, HttpClientInterface $client){
+        $this->entityManager=$entityManager;
+        $this->client = $client;
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $host="www.google.com";
+        $hosts=$this->entityManager->getRepository(IpStatus::class)->findAll();
 
-        exec("ping -c 1 " . $host, $result, $status);//Status 0:Succesfull - 1: Unsuccesfull
-        
-        if ($status==0)
-            $output->writeln($host. " is Online");
-        else
-            $output->writeln($host. " is Offline");
-        
+        foreach($hosts as $host){
+            $hostname=$host->getIp();
+            
+            $response = $this->client->request(
+                'GET',
+                $hostname
+            );
+
+
+            if ($response->getStatusCode()==200){
+                $host->setStatus(true);
+                $host->setLastPing(new DateTime());
+                $output->writeln($hostname . ' Successful responses');
+            }
+            else{
+                $host->setStatus(false);
+                $host->setLastPing(new DateTime());
+                $output->writeln($hostname . ' Bad responses whit code:' . $response);
+            }
+            $this->entityManager->persist($host);
+
+            $this->entityManager->flush();
+        }
+                
         return Command::SUCCESS;
     }
 }
-// $servername = "127.0.0.1:8080";
-//         $username = "root";
-//         $password = "root";
-//         $dbname = "ip_status";
-
-//         // Create connection
-//         $conn = new mysqli($servername, $username, $password, $dbname);
-//         // Check connection
-//         if ($conn->connect_error) {
-//             die("Connection failed: " . $conn->connect_error);
-//         }
-
-//         $sql = "SELECT ip FROM ip_status";
-//         $result = $conn->query($sql);
-
-//         foreach ($result as $ip){
-            
-//             exec("ping -3 1 $ip", $output, $status);
-
-//             $ping_result=false;
-            
-//             if ($status ==0){
-//                 $ping_result=true;
-//             }
-//             else {$ping_result=false;}
-
-//             $sqlupdate = "UPDATE ip_status SET status='$ping_result' WHERE ip=$ip";
-//             $update = $conn->query($sqlupdate);
-//         }
-
-//         $conn->close();

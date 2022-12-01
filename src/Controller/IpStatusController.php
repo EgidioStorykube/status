@@ -42,9 +42,9 @@ class IpStatusController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $ipsStatus = $form->getData();
-            $ipsStatus->setCreated_at(new DateTime());
-            $ipsStatus->save($ipsStatus, true);
+            $ipStatus = $form->getData();
+            $ipStatus->setCreatedAt(new DateTime());
+            $ipsStatus->save($ipStatus, true);
 
             //add a flash
             $this->addFlash('success', 'Your ip have been created');
@@ -82,6 +82,31 @@ class IpStatusController extends AbstractController
         ]);
 
     }
+
+    #[Route('/ip/status/{ipStatus}/delete', name: 'app_ip_status_delete')]
+    public function remove(IpStatus $ipStatus, Request $request, IpStatusRepository $ipsStatus):Response
+    {
+        $form = $this -> createForm(IpStatusType::class, $ipStatus);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $ipStatus = $form->getData();
+            $ipsStatus->remove($ipStatus, true);
+
+            //add a flash
+            $this->addFlash('success', 'Your Url have been Deleted');
+
+            //redirect
+            return $this->redirectToRoute('app_ip_status');
+        }
+
+        return $this->renderForm('ip_status/delete.html.twig', [
+            'form' => $form,
+        ]);
+
+    }
+
 
 
 }

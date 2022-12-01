@@ -1,16 +1,11 @@
-{{form_start(form)}}
-    <div>
-        {{ form_errors(form)}}
-    </div>
-    <div>
-        {{form_label(form.ip, 'Please enter the Ip')}}
-    </div>
-    <div>
-        {{form_widget(form.ip)}}
-    </div>
+{{form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+
+    {{form_label(form.ip, 'Please enter the Url')}}
+    {{form_widget(form.ip)}}
+    {{ form_errors(form.ip)}}
 
     <div>
-        <button type="submit">Save</button>
+        <button class="btn btn-primary mt-3" type="submit">Confirm</button>
     </div>
 
 {{form_end(form)}}
