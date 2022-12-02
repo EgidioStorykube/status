@@ -4,6 +4,10 @@
 
 {% block body %}
 
+<div class="d-flex flex-row align-items-center">
+    <h1>Add a new url to Monitoring</h1>
+    <a href="{{path('app_ip_status')}}" class="btn btn-secondary ms-3">Home</a>
+</div>
 {{include ('ip_status/_form.html.twig')}}
 
 {% endblock %}

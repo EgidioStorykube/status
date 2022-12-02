@@ -3,8 +3,10 @@
 {% block title %}IP Monitor{% endblock %}
 
 {% block body %}
-
-    <h1>Url Monitor</h1>
+    <div class="d-flex flex-row align-items-center">
+        <h1>Url Monitor</h1>
+        <a href="{{path('app_ip_status_add')}}" class="btn btn-primary ms-3">Add a new one.</a>
+    </div>
     {% if ipsStatus|length > 0 %}
         <div class="d-flex flex-wrap justify-content-center flex-row">
             {% for ip in ipsStatus %}
