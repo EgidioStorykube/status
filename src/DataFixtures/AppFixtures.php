@@ -12,7 +12,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $ipStatus1 = New IpStatus();
-        $ipStatus1 -> setIp('127.0.0.1');
+        $ipStatus1 -> setIp('https://www.storykube.com');
         $ipStatus1 -> setCreatedAt(new DateTime());
 
         $manager -> persist($ipStatus1);

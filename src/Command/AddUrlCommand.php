@@ -20,7 +20,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 )]
 class AddUrlCommand extends Command
 {
-    protected static $defaultName = 'app:addurl';
     private $entityManager;
     private $client;
 
@@ -52,6 +51,7 @@ class AddUrlCommand extends Command
         );
 
         $addUrl = new IpStatus;
+        $addUrl->setHttpResponse($response->getStatusCode());
 
         if ($response->getStatusCode()==200){
             $addUrl->setStatus(true);

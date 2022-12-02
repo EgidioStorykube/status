@@ -17,7 +17,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 )]
 class PingCommand extends Command
 {
-    protected static $defaultName = 'app:ping';
     private $entityManager;
     private $client;
 
@@ -41,12 +40,13 @@ class PingCommand extends Command
 
         foreach($hosts as $host){
             $hostname=$host->getIp();
-            
+
             $response = $this->client->request(
                 'GET',
                 $hostname
             );
 
+            $host->setHttpResponse($response->getStatusCode());
 
             if ($response->getStatusCode()==200){
                 $host->setStatus(true);

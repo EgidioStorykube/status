@@ -9,13 +9,18 @@
         <div class="card-body">
             <h5 class="card-title">
                 {% if ipStatus.status == 1 %}
-                    Online
+                    <p class="text-success">Online <i class="bi bi-wifi"></i></p>
                 {% else %}
-                    Offline
+                    <p class="text-success">Offline <i class="bi bi-wifi-off"></i></p>
                 {% endif %}
             </h5>
             <p class="card-text">{{ipStatus.ip}}</p>
-            <p class="text-secondary">Last check {{ipStatus.lastping|date('d/m/Y')}}</p>
+                {% if ipStatus.lastping %}
+                    <p class="text-secondary">Last check {{ipStatus.lastping|date('d/m/Y')}}</p>
+                    <p class="text-secondary">HTTP response status code is {{ipStatus.httpresponse}}</p>
+                {% else %}
+                    <p class="text-secondary">Never Checked</p>
+                {% endif %}
             <div class="d-flex flex-row">
                 <a href="{{path('app_ip_status')}}" class="btn btn-secondary m-2">Home</a>
                 <a href="{{path('app_ip_status_edit', {ipStatus:ipStatus.id})}}" class="btn btn-warning m-2">Edit</a>

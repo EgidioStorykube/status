@@ -31,6 +31,9 @@ class IpStatus
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $last_ping = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $http_response = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +83,18 @@ class IpStatus
     public function setLastPing(?\DateTimeInterface $last_ping): self
     {
         $this->last_ping = $last_ping;
+
+        return $this;
+    }
+
+    public function getHttpResponse(): ?int
+    {
+        return $this->http_response;
+    }
+
+    public function setHttpResponse(?int $http_response): self
+    {
+        $this->http_response = $http_response;
 
         return $this;
     }
